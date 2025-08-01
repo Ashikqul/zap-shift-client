@@ -21,6 +21,7 @@ import PendingRidersa from "../pages/Dashboard/PendingRiders/PendingRiders";
 import ActiveRider from "../pages/Dashboard/ActiveRiders/ActiveRiders";
 import RiderRoute from "./RiderRoute";
 import PendingDeliveries from "../pages/Dashboard/PendingDeliveries/PendingDeliveries";
+import About from "../pages/shared/About/About";
 
 
 export const router = createBrowserRouter([
@@ -71,6 +72,10 @@ path: 'sendParcel',
 {
   path: 'register',
   Component: Register,
+},
+{
+  path: 'about',
+  Component: About,
 },
 
     ]
