@@ -40,7 +40,7 @@ const FAQ = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-base-100 rounded-lg shadow-lg mt-4">
+    <div  className="max-w-3xl mx-auto p-6 bg-base-100 rounded-lg shadow-lg mt-4">
       <h2 className="text-3xl font-bold mb-6 text-center ">Frequently Asked Questions (FAQ)</h2>
       <p className="text-2xl font-semibold mb-6 text-center ">Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
 
