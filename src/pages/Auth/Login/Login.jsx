@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import {
@@ -9,11 +9,14 @@ import {
 import { auth } from "../../../firebase/firebase.init";
 import { useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router";
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
+
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -24,13 +27,12 @@ const Login = () => {
   const googleProvider = new GoogleAuthProvider();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const { email, password } = data;
-
       const result = await signInWithEmailAndPassword(auth, email, password);
       const token = await result.user.getIdToken();
       localStorage.setItem("access-token", token);
-      console.log("✅ Token stored after login:", token);
 
       Swal.fire({
         icon: "success",
@@ -46,15 +48,17 @@ const Login = () => {
         title: "Oops...",
         text: error.message,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
+    setLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
       localStorage.setItem("access-token", token);
-      console.log("✅ Token stored after Google login:", token);
 
       Swal.fire({
         icon: "success",
@@ -70,6 +74,8 @@ const Login = () => {
         title: "Oops...",
         text: error.message,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,8 +122,12 @@ const Login = () => {
           </div>
 
           <div className="pt-4">
-            <button type="submit" className="btn btn-primary w-full bg-gradient-to-r from-[#CBEC68] to-[#F9F871] hover:from-[#f9f871] hover:to-[#CBEC68] transition-all duration-300 shadow-md">
-              Login
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn btn-primary w-full bg-gradient-to-r from-[#CBEC68] to-[#F9F871] hover:from-[#f9f871] hover:to-[#CBEC68] transition-all duration-300 shadow-md"
+            >
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>
@@ -126,6 +136,7 @@ const Login = () => {
 
         <button
           onClick={handleGoogleSignIn}
+          disabled={loading}
           className="btn btn-outline btn-primary w-full flex items-center justify-center gap-2"
         >
           <FcGoogle size={24} />
@@ -134,9 +145,12 @@ const Login = () => {
 
         <p className="text-center text-sm mt-6">
           Don’t have an account?{" "}
-          <a href="/register" className="text-primary hover:underline bg-gradient-to-r from-[#CBEC68] to-[#F9F871] hover:from-[#f9f871] hover:to-[#CBEC68] transition-all duration-300 shadow-md">
-            Register
-          </a>
+      <Link
+  to="/register"
+  className="bg-gradient-to-r text-black from-[#CBEC68] to-[#F9F871] bg-clip-text  font-semibold hover:opacity-80 transition-opacity duration-300"
+>
+  Register
+</Link>
         </p>
       </div>
     </div>
